@@ -1,29 +1,22 @@
-import os
 import random
 import numpy as np
 import pickle as pkl
-import networkx as nx
 import scipy.sparse as sp
-from utils import loadWord2Vec, clean_str
+from utils import loadWord2Vec
 from math import log
-from sklearn import svm
-from nltk.corpus import wordnet as wn
-from sklearn.feature_extraction.text import TfidfVectorizer
 import sys
-from scipy.spatial.distance import cosine
 
 if len(sys.argv) != 2:
-	sys.exit("Use: python build_graph.py <dataset>")
+    sys.exit("Use: python build_graph.py <dataset>")
 
-datasets = ['20ng', 'R8', 'R52', 'ohsumed', 'mr', 'own', 'i2b2']
+datasets = ['i2b2', 'mimic']
 # build corpus
 dataset = sys.argv[1]
 
-# if dataset not in datasets:
-# 	sys.exit("wrong dataset name")
-
 # Read Word Vectors
-word_vector_file = '/infodev1/non-phi-data/yanshan/dl4ehr/glove.6B.300d.txt'
+model_dir = 'PATH/TO/WORD2VEC/MODEL'
+word_vector_file = model_dir + 'glove.6B.100d.txt'
+
 # word_vector_file = 'data/corpus/' + dataset + '_word_vectors.txt'
 _, embd, word_vector_map = loadWord2Vec(word_vector_file)
 word_embeddings_dim = len(embd[0])

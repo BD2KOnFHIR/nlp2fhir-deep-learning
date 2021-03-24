@@ -19,6 +19,7 @@ import fhirclient.models.bundle as bd
 import networkx as nx
 import xmltodict
 from collections import defaultdict
+import os
 
 #surpass FHIR-related warnings
 def warn(*args, **kwargs):
@@ -27,10 +28,8 @@ def warn(*args, **kwargs):
 import warnings
 warnings.warn = warn
 
-
-data_root = Path('fhir/obesity_datasets')
-
-
+data_root = Path('data/obesity_datasets')
+data_output_dir = Path('data/corpus')
 
 class FhirDoc:
     def __init__(self, entry_name, doc_src='i2b2'):
@@ -75,7 +74,7 @@ def get_i2b2_labels():
     disease_doc_labels = {}
     split_dict = {}
     for tag in tags:
-        gs_file = 'data/obesity_datasets/i2b2/source/{}_groundtruth.xml'.format(tag)
+        gs_file = data_root / 'i2b2/source/{}_groundtruth.xml'.format(tag)
         with open(gs_file) as fd:
             doc = xmltodict.parse(fd.read())
             task_index = 1      # 0 for intuitive and 1 for textual
@@ -132,14 +131,17 @@ def prepare_i2b2():
 
         i += 1
 
+    if not os.path.exists(data_output_dir):
+        os.makedirs(data_output_dir)
+
     # print all diseases
     for disease in diseases:
         # write to text_gcn directory
         fo_data = open('data/{}_dt_{}.txt'.format(dataset_name, disease), 'w')
-        fo_corpus = open('data/corpus/{}_dt_{}.txt'.format(dataset_name, disease), 'w')
+        fo_corpus = open(data_output_dir / '{}_dt_{}.txt'.format(dataset_name, disease), 'w')
 
         fo_r_data = open('data/{}_rt_{}.txt'.format(dataset_name, disease), 'w')
-        fo_ref = open('data/corpus/{}_rt_{}.txt'.format(dataset_name, disease), 'w')
+        fo_ref = open(data_output_dir / '{}_rt_{}.txt'.format(dataset_name, disease), 'w')
 
         for tag in tags:
             for doc_id, label, sent in sentences[disease][tag]:
