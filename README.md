@@ -6,6 +6,33 @@ Integration of NLP2FHIR Representation with Deep Learning Models for EHR Phenoty
 - Processed texts as a FHIR Resource Bundle from [NLP2FHIR](https://github.com/BD2KOnFHIR/NLP2FHIR)
 - Python 3.5 and above
 - Tensorflow >= 1.4.0
+- fhirclient
+- pandas
+- nextworkx
+- nltk
+
+# Dataset preparation
+## Input files
+For both the i2b2 and mimic datasets, the input file structure under `data/obesity_datasets/{$DATASET}/` (replace `{$DATASET}` to `i2b2` or `mimic`) should be as follows:
+- Notes: 
+  - i2b2: `obesity notes/REPORT{$NOTE_ID}.txt`
+  - mimic: `notes/{$NOTE_ID}.txt` 
+- Resource Bundle (the output directory of NLP2FHIR): `` 
+  - i2b2: `ObesityResourceResourceBundle/REPORT{$NOTE_ID}.txt.json`
+  - mimic: `ObesityResourceResourceBundle/{$NOTE_ID}.txt.json`
+- Gold standard labels 
+  - i2b2: `train_groundtruth.xml` and `test_groundtruth.xml` 
+  - mimic: a csv file with columns of ${NOTE_ID} and all comobidities as 0 and 1, and the last 2 columns as the indicator of training and testing, also in 0 and 1.
+
+# Run 
+
+Run `python remove_words.py {$DATASET}`
+
+Run `python build_graph.py {$DATASET}`
+
+Run `python train_on_keras_all_com.py`
+
+
 
 # References
 The implementation of Text GCN :

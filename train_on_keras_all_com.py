@@ -18,6 +18,13 @@ from keras.preprocessing.text import Tokenizer
 from sklearn.preprocessing import LabelBinarizer, LabelEncoder
 from keras import optimizers
 
+
+data_dir = 'data/'
+# get model and convert to w2v
+model_dir = 'PATH/TO/WORD2VEC/MODEL'
+glove_input_file = model_dir + 'glove.6B.100d.txt'
+
+
 # set parameters:
 maxlen = 500
 batch_size = 32
@@ -31,7 +38,7 @@ epochs = 40
 
 diseases = ['Asthma', 'CAD', 'CHF',
             'Depression', 'Diabetes', 'GERD' , 'Gallstones', 'Hypercholesterolemia',
-    'Hypertension', 'Hypertriglyceridemia', 'OA', 'OSA', 'Obesity', 'PVD', 'Venous_Insufficiency'
+    'Hypertension', 'Hypertriglyceridemia', 'OA', 'OSA', 'Obesity', 'PVD', 'Venous-Insufficiency'
 ]
 
 
@@ -82,12 +89,8 @@ tokenizer = Tokenizer(num_words=5000)
 #     model_dir = '/data/models/'
 #     data_dir = '/data/data/'
 # else:
-model_dir = '/infodev1/non-phi-data/yanshan/dl4ehr/'
-data_dir = 'data/'
 
 
-# get model and convert to w2v
-glove_input_file = model_dir + 'glove.6B.100d.txt'
 
 word2vec_output_file = '/local2/tmp/w2v.txt'
 glove2word2vec(glove_input_file, word2vec_output_file)
