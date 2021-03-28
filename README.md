@@ -8,7 +8,7 @@ Integration of NLP2FHIR Representation with Deep Learning Models for EHR Phenoty
 - Tensorflow >= 1.4.0
 - fhirclient
 - pandas
-- nextworkx
+- networkx
 - nltk
 
 # Dataset preparation
@@ -25,6 +25,8 @@ For both the i2b2 and mimic datasets, the input file structure under `data/obesi
   - mimic: a csv file with columns of ${NOTE_ID} and all comobidities as 0 and 1, and the last 2 columns as the indicator of training and testing, also in 0 and 1.
 
 # Run 
+
+Run `python fhir_{$DATASET}_reader.py`
 
 Run `python remove_words.py {$DATASET}`
 
